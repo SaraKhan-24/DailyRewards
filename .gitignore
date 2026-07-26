@@ -1,0 +1,18 @@
+# Gradle build artifacts
+.gradle/
+build/
+
+# IDE & Editor files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Minecraft server run output / logs / runtime database
+run/
+*.log

@@ -1,0 +1,11 @@
+name: DailyRewards
+version: '1.0.0'
+main: org.sara.minecraftPlugin.DailyRewardsPlugin
+api-version: '26.1'
+author: Sara Khan
+description: A daily rewards plugin with a custom GUI, SQLite-backed economy, and a 24-hour claim cooldown.
+
+commands:
+  rewards:
+    description: Opens the Daily Rewards GUI.
+    usage: /rewards
