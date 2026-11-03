@@ -1,57 +1,40 @@
-# 🎁 DailyRewards — Paper Minecraft Plugin
+# DailyRewards
+
+A daily reward plugin for [Paper](https://papermc.io/) Minecraft servers. Players open a chest-style GUI with `/rewards`, claim a daily reward once every 24 hours, and their balance and claim time are stored in SQLite.
 
 ![Java](https://img.shields.io/badge/Java-25-orange.svg)
-![PaperMC](https://img.shields.io/badge/PaperMC-26.2-blue.svg)
+![Paper](https://img.shields.io/badge/PaperMC-API-blue.svg)
 ![Database](https://img.shields.io/badge/Database-SQLite-lightgrey.svg)
 ![Build](https://img.shields.io/badge/Gradle-Kotlin_DSL-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-purple.svg)
 
-**DailyRewards** is a high-performance Minecraft: Java Edition plugin built for [Paper](https://papermc.io/). It provides players with a daily reward system featuring an interactive custom chest GUI, economy addition, and persistent SQLite data tracking with a strict 24-hour cooldown mechanism.
-
----
-
-## 📸 Screenshots
+## Screenshots
 
 | Feature | Preview |
 |---|---|
-| **Join Reminder Message** | ![Welcome Message](screenshots/WelcomeMessage.png) |
-| **Interactive GUI (`/rewards`)** | ![Plugin GUI](screenshots/PluginGUI.png) |
-| **Reward Claiming & Balance** | ![Reward Claimed](screenshots/Reward.png) |
-| **SQLite Database Sync** | ![Database Update](screenshots/DatabaseUpdate.png) |
+| Join reminder | ![Welcome message](screenshots/WelcomeMessage.png) |
+| `/rewards` GUI | ![Plugin GUI](screenshots/PluginGUI.png) |
+| Claim and balance | ![Reward claimed](screenshots/Reward.png) |
+| Database update | ![Database update](screenshots/DatabaseUpdate.png) |
 
----
+## Features
 
-## ✨ Features
+- **Custom GUI.** `/rewards` opens a 9-slot chest inventory with styled items and lore.
+- **24-hour cooldown.** The last claim time is stored per player, and the remaining time is shown when a claim is too early.
+- **Built-in balance.** Each claim adds $100 to the player's stored balance.
+- **SQLite persistence.** UUID, balance and last claim time are saved in `plugins/DailyRewards/database.db`.
+- **No external dependencies.** It uses the SQLite JDBC driver bundled with Paper, so no database server is needed.
+- **Join listener.** Greets players on join and tells them if a reward is ready.
 
-- 🎮 **Custom GUI Interface**: Run `/rewards` to open a clean 9-slot chest inventory with custom-styled items and lore.
-- ⏰ **24-Hour Cooldown Enforcement**: Prevents players from spamming rewards; calculates exact remaining cooldown time before allowing another claim.
-- 💰 **In-Game Economy Integration**: Awards $100 currency per claim directly to the player's balance.
-- 💾 **SQLite Database Persistence**: Stores each player's UUID, balance, and claim timestamps locally (`plugins/DailyRewards/database.db`).
-- ⚡ **Lightweight & Dependency-Free**: Uses Paper's built-in SQLite JDBC driver—no external dependencies or database installation required.
-- 🔔 **Player Join Listener**: Automatically greets players upon joining and notifies them if their daily reward is ready to claim.
+## Commands
 
----
+| Command | Description | Permission |
+|---|---|---|
+| `/rewards` | Opens the daily rewards GUI | All players |
 
-## 🛠️ Tech Stack
+## Database schema
 
-- **Language**: Java 25
-- **API**: Paper API `26.2`
-- **Database**: SQLite (JDBC)
-- **Build System**: Gradle (Kotlin DSL) with `xyz.jpenilla.run-paper` plugin
-
----
-
-## 💻 Commands & Permissions
-
-| Command | Usage | Description | Permission |
-|---|---|---|---|
-| `/rewards` | `/rewards` | Opens the Daily Rewards GUI | Default (All Players) |
-
----
-
-## 🗄️ Database Schema
-
-The SQLite database (`database.db`) automatically initializes the `rewards` table on plugin startup:
+Created automatically on startup:
 
 ```sql
 CREATE TABLE IF NOT EXISTS rewards (
@@ -61,31 +44,23 @@ CREATE TABLE IF NOT EXISTS rewards (
 );
 ```
 
----
+The cooldown is checked by comparing the stored `last_claim` timestamp to the current time.
 
-## 🚀 Building & Running Locally
-
-### 1. Build the Jar
-Clone the repository and compile the plugin using the Gradle Wrapper:
+## Build and run
 
 ```bash
-./gradlew build
+./gradlew build        # jar is written to build/libs/DailyRewards-1.0.0.jar
+./gradlew runServer    # starts a local Paper test server
 ```
 
-The compiled plugin jar will be generated in `build/libs/DailyRewards-1.0.0.jar`.
+Or copy the jar into an existing Paper server's `plugins/` folder and restart. The Java and Paper API versions are set in `build.gradle.kts`.
 
-### 2. Run with Paper Test Server
-You can launch a local Paper server directly with Gradle:
+## Roadmap
 
-```bash
-./gradlew runServer
-```
+- [ ] Configurable reward amount
+- [ ] Integration with a Vault-compatible economy plugin
+- [ ] Claim streaks
 
-Or drop `build/libs/DailyRewards-1.0.0.jar` into your existing Paper server's `plugins/` directory and restart the server.
+## Author
 
----
-
-## 👤 Author
-
-- **Sara Khan** - [@SaraKhan-24](https://github.com/SaraKhan-24)
-- **Repository**: [DailyRewards](https://github.com/SaraKhan-24/DailyRewards.git)
+Sara Khan ([@SaraKhan-24](https://github.com/SaraKhan-24)). MIT licensed.
